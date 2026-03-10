@@ -98,6 +98,57 @@
 
 
 `timescale 1ns / 1ps
+```verilog
+//////////////////////////////////////////////////////////////////////////////////
+// Module Name : cnn_top_pipeline
+//
+// Description :
+// This module implements the first convolution layer of a CNN accelerator.
+// The design processes a streaming grayscale image and performs 3×3 convolution
+// using multiple filters in parallel.
+//
+// Pipeline Architecture:
+//
+//      Pixel Stream (128×128 image)
+//                 │
+//                 ▼
+//          imageControl
+//     (Line buffers + window generator)
+//     Generates sliding 3×3 pixel window
+//                 │
+//                 ▼
+//           cnn_layer16
+//     (16 parallel 3×3 convolution units)
+//     Each filter produces one feature value
+//                 │
+//                 ▼
+//        Feature Map Outputs
+//        16 parallel convolution results
+//
+// Data Flow:
+//
+//  Input image        : 128 × 128 × 1
+//  Kernel size        : 3 × 3
+//  Number of filters  : 16
+//
+//  Output feature maps: 128 × 128 × 16
+//
+// Each clock cycle (after pipeline fill):
+//  • A new 3×3 window is generated
+//  • 16 convolutions are computed in parallel
+//  • 16 feature values are produced
+//
+// Implementation Notes:
+//
+//  • Pixels are 8-bit grayscale values
+//  • Weights are signed 16-bit values
+//  • Convolution results are 32-bit values
+//  • Window generator outputs 72-bit window (9 pixels)
+//
+// This module forms the first stage of a CNN / U-Net hardware accelerator.
+//
+//////////////////////////////////////////////////////////////////////////////////
+```
 
 module cnn_top_pipeline(
 
