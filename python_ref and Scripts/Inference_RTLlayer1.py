@@ -1,5 +1,5 @@
 ##############################################################################
-# HYBRID INT8 INFERENCE (RTL Layer1 + TFLite rest)
+# HYBRID INT8 INFERENCE (RTL like python Layer1 + TFLite rest)
 ##############################################################################
 
 import numpy as np
